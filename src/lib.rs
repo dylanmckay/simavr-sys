@@ -14,7 +14,7 @@ mod test {
         let mcu_name = CString::new("atmega328p").unwrap();
 
         unsafe {
-            let mcu = avr_make_mcu_by_name(mcu_name.as_ptr());
+            let _avr = avr_make_mcu_by_name(mcu_name.as_ptr());
         }
     }
 }
