@@ -3,5 +3,14 @@ name = "simavr-sys"
 version = "1.5.0"
 authors = ["Dylan McKay <me@dylanmckay.io>"]
 
+description = "Bindings to the 'simavr' AVR simulator"
+documentation = "http://docs.rs/simavr-sys"
+repository = "https://github.com/dylanmckay/simavr-sys"
+
+readme = "README.md"
+license = "GPL"
+
+keywords = ["avr", "simulator", "emulator"]
+
 [build-dependencies]
 bindgen = "0.26"
