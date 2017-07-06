@@ -3,4 +3,5 @@ name = "simavr-sys"
 version = "0.1.0"
 authors = ["Dylan McKay <me@dylanmckay.io>"]
 
-[dependencies]
+[build-dependencies]
+bindgen = "0.26"
