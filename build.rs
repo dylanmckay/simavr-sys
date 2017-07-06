@@ -4,8 +4,13 @@ extern crate walkdir;
 use bindgen::builder;
 use walkdir::WalkDir;
 
+use std::path::Path;
+use std::process::Command;
+use std::ffi::OsStr;
+
 const SIMAVR_INCLUDE_DIR: &'static str = "simavr/simavr/sim";
 const SIMAVR_HEADER_EXT: &'static str = "h";
+const SIMAVR_ARCHIVE_NAME: &'static str = "libsimavr.a";
 const BINDINGS_DEST: &'static str = "src/bindings.rs";
 
 fn main() {
@@ -29,5 +34,33 @@ fn main() {
     // Write the generated bindings to an output file.
     bindings.write_to_file(BINDINGS_DEST)
         .expect("could not write bindings to file");
+
+    compile_simavr()
+}
+
+fn compile_simavr() {
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let simavr_dir = manifest_dir.join("simavr");
+
+    // note that there are a number of downsides to this approach, the comments
+    // below detail how to improve the portability of these commands.
+    Command::new("make").current_dir(&simavr_dir)
+                        .status()
+                        .expect("failed to compile simavr");
+
+    let archive_file = WalkDir::new(&simavr_dir)
+                          .into_iter()
+                          .map(|e| e.unwrap().path().to_owned())
+                          .find(|path| path.file_name() == Some(OsStr::new(SIMAVR_ARCHIVE_NAME)));
+
+    if let Some(archive_file) = archive_file {
+        let parent = simavr_dir.join(archive_file.parent().unwrap());
+        let lib_name = archive_file.file_stem().unwrap().to_str().unwrap().replacen("lib", "", 1);
+
+        println!("cargo:rustc-link-search={}", parent.display());
+        println!("cargo:rustc-link-lib={}", lib_name);
+    } else {
+        panic!("could not find simavr archive file");
+    }
 }
 
