@@ -13,6 +13,11 @@ const SIMAVR_HEADER_EXT: &'static str = "h";
 const SIMAVR_ARCHIVE_NAME: &'static str = "libsimavr.a";
 const BINDINGS_DEST: &'static str = "src/bindings.rs";
 
+#[cfg(feature = "trace")]
+const ENABLE_TRACE: bool = true;
+#[cfg(not(feature = "trace"))]
+const ENABLE_TRACE: bool = false;
+
 fn main() {
     println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
 
@@ -47,7 +52,7 @@ fn compile_simavr() {
     let mut cmd = Command::new("make");
     cmd.current_dir(&simavr_dir);
 
-    if cfg!(trace) {
+    if ENABLE_TRACE {
         cmd.env("CFLAGS", "-DCONFIG_SIMAVR_TRACE=1");
     }
 
@@ -64,7 +69,7 @@ fn compile_simavr() {
         let lib_name = archive_file.file_stem().unwrap().to_str().unwrap().replacen("lib", "", 1);
 
         println!("cargo:rustc-link-search={}", parent.display());
-        println!("cargo:rustc-link-lib={}", lib_name);
+        println!("cargo:rustc-link-lib=static={}", lib_name);
     } else {
         panic!("could not find simavr archive file");
     }

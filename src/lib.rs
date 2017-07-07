@@ -18,3 +18,6 @@ mod test {
         }
     }
 }
+
+#[link(name = "elf")]
+extern { }
