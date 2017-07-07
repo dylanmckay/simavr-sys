@@ -44,9 +44,15 @@ fn compile_simavr() {
 
     // note that there are a number of downsides to this approach, the comments
     // below detail how to improve the portability of these commands.
-    Command::new("make").current_dir(&simavr_dir)
-                        .status()
-                        .expect("failed to compile simavr");
+    let mut cmd = Command::new("make");
+    cmd.current_dir(&simavr_dir);
+
+    if cfg!(trace) {
+        cmd.env("CFLAGS", "-DCONFIG_SIMAVR_TRACE=1");
+    }
+
+    cmd.status()
+       .expect("failed to compile simavr");
 
     let archive_file = WalkDir::new(&simavr_dir)
                           .into_iter()

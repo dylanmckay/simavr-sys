@@ -12,6 +12,10 @@ license = "GPL-3.0"
 
 keywords = ["avr", "simulator", "emulator"]
 
+[features]
+default = []
+trace = []
+
 [build-dependencies]
 bindgen = { git = "https://github.com/dylanmckay/rust-bindgen.git", branch = "preprocess-doc-comments" }
 walkdir = "1.0"
