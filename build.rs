@@ -8,6 +8,7 @@ use std::path::Path;
 use std::process::Command;
 use std::ffi::OsStr;
 
+const SIMAVR_GIT_HEAD_PATH: &'static str = ".git/modules/simavr";
 const SIMAVR_INCLUDE_DIR: &'static str = "simavr/simavr/sim";
 const SIMAVR_HEADER_EXT: &'static str = "h";
 const SIMAVR_ARCHIVE_NAME: &'static str = "libsimavr.a";
@@ -20,6 +21,7 @@ const ENABLE_TRACE: bool = false;
 
 fn main() {
     println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
+    println!("cargo:rerun-if-changed={}", SIMAVR_GIT_HEAD_PATH);
 
     // Recurse through the simavr submodule and find all header files.
     let headers: Result<Vec<String>, _> =
