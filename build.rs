@@ -35,8 +35,12 @@ fn main() {
 
     let builder = headers.into_iter().fold(builder(), |cur,header| cur.header(header));
     // Configure and generate bindings.
-    let bindings = builder.generate()
-                          .expect("could not generate bindings");
+    let bindings = builder
+        // bindgen does not handle >64-bit alignment
+        // https://github.com/rust-lang-nursery/rust-bindgen/issues/550#issuecomment-289631540
+        .blacklist_type("max_align_t")
+        .generate()
+        .expect("could not generate bindings");
 
     // Write the generated bindings to an output file.
     bindings.write_to_file(BINDINGS_DEST)
