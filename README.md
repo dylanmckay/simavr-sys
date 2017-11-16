@@ -10,13 +10,17 @@ Bindings to the [simavr](https://github.com/buserror/simavr) AVR simulator.
 
 ## Versioning scheme
 
-The crate published to crates.io will always include the simavr version in
+The crate published to crates.io will always include the major and minor simavr version in
 the crates.io version.
+
+The revision is specific to this crate.
 
 Versions look like this
 
 `<simavr-version>-<simavr-sys-minor>`
 
-So, if we've made two changes to simavr `1.5.1`, then the new version
-should be `1.5.1-1`.
+So, if we've made two revisions with simavr `1.5.9`, then the new version
+should be `1.5.1`.
+
+When a new minor version is released, the minor version should tick back to zero.
 
