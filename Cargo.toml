@@ -17,5 +17,5 @@ default = []
 trace = []
 
 [build-dependencies]
-bindgen = { git = "https://github.com/dylanmckay/rust-bindgen.git", branch = "preprocess-doc-comments" }
+bindgen = "0.31"
 walkdir = "1.0"
