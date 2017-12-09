@@ -45,7 +45,7 @@ fn main() {
 
     compile_simavr();
 
-    // println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
+    println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
     // println!("cargo:rerun-if-changed={}", SIMAVR_GIT_HEAD_PATH);
 }
 
