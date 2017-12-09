@@ -20,9 +20,6 @@ const ENABLE_TRACE: bool = true;
 const ENABLE_TRACE: bool = false;
 
 fn main() {
-    println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
-    println!("cargo:rerun-if-changed={}", SIMAVR_GIT_HEAD_PATH);
-
     // Recurse through the simavr submodule and find all header files.
     let headers: Result<Vec<String>, _> =
         WalkDir::new(SIMAVR_INCLUDE_DIR)
@@ -46,7 +43,10 @@ fn main() {
     bindings.write_to_file(BINDINGS_DEST)
         .expect("could not write bindings to file");
 
-    compile_simavr()
+    compile_simavr();
+
+    println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
+    println!("cargo:rerun-if-changed={}", SIMAVR_GIT_HEAD_PATH);
 }
 
 fn compile_simavr() {
