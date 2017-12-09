@@ -8,7 +8,6 @@ use std::path::Path;
 use std::process::Command;
 use std::ffi::OsStr;
 
-const SIMAVR_GIT_HEAD_PATH: &'static str = ".git/modules/simavr";
 const SIMAVR_INCLUDE_DIR: &'static str = "simavr/simavr/sim";
 const SIMAVR_HEADER_EXT: &'static str = "h";
 const SIMAVR_ARCHIVE_NAME: &'static str = "libsimavr.a";
@@ -46,7 +45,6 @@ fn main() {
     compile_simavr();
 
     println!("cargo:rerun-if-changed={}", BINDINGS_DEST);
-    // println!("cargo:rerun-if-changed={}", SIMAVR_GIT_HEAD_PATH);
 }
 
 fn compile_simavr() {
