@@ -17,5 +17,5 @@ default = []
 trace = []
 
 [build-dependencies]
-bindgen = "0.31"
+bindgen = "0.32"
 walkdir = "1.0"
