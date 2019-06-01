@@ -38,9 +38,24 @@ fn main() {
         .generate()
         .expect("could not generate bindings");
 
-    // Write the generated bindings to an output file.
-    bindings.write_to_file(BINDINGS_DEST)
-        .expect("could not write bindings to file");
+
+    let previous_bindings = if Path::new(BINDINGS_DEST).exists() {
+        std::fs::read(BINDINGS_DEST).ok()
+    } else {
+        None
+    };
+
+    let should_update_bindings = match previous_bindings {
+        Some(previous_bindings) => previous_bindings != bindings.to_string().as_bytes(),
+        None => true,
+    };
+
+
+    if should_update_bindings {
+        // Write the generated bindings to an output file.
+        bindings.write_to_file(BINDINGS_DEST)
+            .expect("could not write bindings to file");
+    }
 
     compile_simavr();
 
