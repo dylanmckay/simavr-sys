@@ -1,7 +1,7 @@
 extern crate bindgen;
 extern crate walkdir;
 
-use bindgen::builder;
+use bindgen::Builder;
 use walkdir::WalkDir;
 
 use std::path::Path;
@@ -29,12 +29,12 @@ fn main() {
 
     let headers = headers.expect("could not find bindgen headers in submodule");
 
-    let builder = headers.into_iter().fold(builder(), |cur,header| cur.header(header));
+    let builder = headers.into_iter().fold(Builder::default(), |cur,header| cur.header(header));
     // Configure and generate bindings.
     let bindings = builder
         // bindgen does not handle >64-bit alignment
         // https://github.com/rust-lang-nursery/rust-bindgen/issues/550#issuecomment-289631540
-        .blacklist_type("max_align_t")
+        .blocklist_type("max_align_t")
         .generate()
         .expect("could not generate bindings");
 
