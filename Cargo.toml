@@ -1,6 +1,6 @@
 [package]
 name = "simavr-sys"
-version = "1.5.9"
+version = "1.7.0"
 authors = ["Dylan McKay <me@dylanmckay.io>"]
 
 description = "Bindings to the 'simavr' AVR simulator"
